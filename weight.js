@@ -17,6 +17,28 @@ var line = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.weight); });
 
+    var prevPrevVal = 0;
+    var prevVal = 0;
+    var curVal = 0
+    var lineAvg = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d,i){
+        	if (i == 0) {
+    	      prevPrevVal  = y(d.weight);
+    	      prevVal = y(d.weight);
+    	      curVal =  y(d.weight);
+    	  } else if (i == 1) {
+    	      prevPrevVal = prevVal;
+    	      prevVal = curVal;
+    	      curVal = (prevVal + y(d.weight)) / 2.0;
+    	  } else {
+    	      prevPrevVal = prevVal;
+    	      prevVal = curVal;
+    	      curVal = (prevPrevVal + prevVal + y(d.weight)) / 3.0;
+    	  }
+        	return curVal;
+        });
+
 d3.csv("weight.csv", function(data) {
 // if (error) throw error;
 // console.log(data);
@@ -49,6 +71,16 @@ g.append("path")
   .attr("stroke-linejoin", "round")
   .attr("stroke-linecap", "round")
   .attr("stroke-width", 1.5)
+  .attr("opacity", .2)
   .attr("d", line);
+
+g.append("path")
+  .datum(data)
+  .attr("fill", "none")
+  .attr("stroke", "steelblue")
+  .attr("stroke-linejoin", "round")
+  .attr("stroke-linecap", "round")
+  .attr("stroke-width", 1.5)
+  .attr("d", lineAvg);
 });
 }
