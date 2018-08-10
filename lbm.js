@@ -46,7 +46,24 @@ data.forEach(function(data, i) {
 	data.date = parseTime(data.date);
 	data.weight = +(data.weight-(data.weight*(data.fat/100.0)));
 });
-// console.log(data);
+var beginning = 0;
+for (var i = 0; i <= 29; i++) {
+	beginning += data[i].weight;
+	// console.log(data[i].weight);
+};
+beginning = beginning/30.0;
+// console.log(beginning);
+var end = 0;
+for (var i = (data.length-1); i >= (data.length-30); i--) {
+	end += data[i].weight;
+	// console.log(data[i].weight);
+};
+end = end/30.0;
+// console.log(end);
+var result = end-beginning;
+result = Number.parseFloat(result).toPrecision(3);
+d3.select("#lbmChange").html(result+"lbs");
+
 x.domain(d3.extent(data, function(d) { return d.date; }));
 y.domain(d3.extent(data, function(d) { return d.weight; }));
 
@@ -83,4 +100,7 @@ g.append("path")
   .attr("stroke-width", 1.5)
   .attr("d", lineAvg);
 });
+
+
+
 }
