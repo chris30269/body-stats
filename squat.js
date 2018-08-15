@@ -17,10 +17,6 @@ var line = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.weight); });
 
-var prevPrevVal = 0;
-var prevVal = 0;
-var curVal = 0
-
 d3.csv("squat.csv", function(data) {
 // if (error) throw error;
 // console.log(data);
