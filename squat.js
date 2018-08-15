@@ -66,7 +66,7 @@ g.append("g")
   .attr("y", 6)
   .attr("dy", "0.71em")
   .attr("text-anchor", "end")
-  .text("Lean Body Mass (lbs)");
+  .text("e1RM Sum");
 
 g.append("path")
   .datum(groupedData)
