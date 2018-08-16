@@ -5,7 +5,12 @@ function squat(){
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var div = d3.select("#tooltip")
+      .attr("class", "tooltip")
+      .attr("class", "hidden");
+
 var parseTime = d3.timeParse("%Y-%m-%d");
+var showTime = d3.timeFormat("%Y-%m-%d");
 
 var x = d3.scaleTime()
     .rangeRound([0, width]);
@@ -77,6 +82,27 @@ g.append("path")
   .attr("stroke-width", 1.5)
   .attr("d", line);
 
+var circles = g.selectAll("circle")
+  .data(groupedData)
+  .enter()
+  .append("circle")
+  .attr("cx", function(d){return x(d.date);})
+  .attr("cy", function(d){return y(d.weight);})
+  .attr("r", function(d){return 4;})
+  .attr("stroke-width", 3)
+  .attr("stroke", "steelblue")
+  .attr("fill", "steelblue")
+  .on("mouseover touchdown", function(d){
+    div.attr("class", "shown box");
+    div.append("p").html(showTime(d.date));
+    div.append("p").html(d.weight);
+    div.append("p").html(d.notes);
+    div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+  })
+  .on("mouseout touchup", function(d){
+    div.attr("class", "hidden box");
+    div.html("");
+  });
 });
 
 

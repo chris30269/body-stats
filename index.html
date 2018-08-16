@@ -10,6 +10,16 @@
     <script type="text/javascript" src="weight.js"></script>
     <script type="text/javascript" src="lbm.js"></script>
     <script type="text/javascript" src="squat.js"></script>
+    <style type="text/css">
+    	.hidden{
+    		display: none;
+    		opacity: 0;
+    	}
+    	.shown{
+    		display: block;
+    		opacity: 1;
+    	}
+    </style>
   </head>
   <body>
   <section class="section">
@@ -38,6 +48,7 @@
   </section>
   <section>
     <div class="section" id="squat">
+    	<div id="tooltip" class="box"></div>
     	<div class="container">
     		<h5 class="title is-5">Squat e1RM</h5>
     		<p>Difference between first month and last month: <span id="squatChange">x</span></p>
