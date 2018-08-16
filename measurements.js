@@ -93,7 +93,7 @@ var circles = g.selectAll("circle .chest")
   .on("mouseover touchdown", function(d){
     div.attr("class", "shown box");
     div.append("p").html(showTime(d.date));
-    div.append("p").html(d.measurement+" inches");
+    div.append("p").html("Chest: "+d.measurement+" inches");
     div.append("p").html(d.notes);
     div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
   })
@@ -159,7 +159,7 @@ var circles = g.selectAll("circle .waist")
   .on("mouseover touchdown", function(d){
     div.attr("class", "shown box");
     div.append("p").html(showTime(d.date));
-    div.append("p").html(d.measurement+" inches");
+    div.append("p").html("Waist: "+d.measurement+" inches");
     div.append("p").html(d.notes);
     div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
   })
