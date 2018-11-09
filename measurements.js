@@ -54,7 +54,7 @@ data.forEach(function(data) {
 
 x.domain(d3.extent(data, function(d) { return d.date; }));
 // y.domain(d3.extent(data, function(d) { return d.measurement; }));
-y.domain([20,50]);
+y.domain([10,60]);
 
 g.append("g")
   .attr("transform", "translate(0," + height + ")")
@@ -73,7 +73,7 @@ g.append("g")
 g.append("path")
   .datum(data)
   .attr("fill", "none")
-  .attr("stroke", "steelblue")
+  .attr("stroke", "hsl(0, 100%, 50%)")
   .attr("stroke-linejoin", "round")
   .attr("stroke-linecap", "round")
   .attr("stroke-width", 1.5)
@@ -85,10 +85,10 @@ var circles = g.selectAll("circle .chest")
   .append("circle")
   .attr("cx", function(d){return x(d.date);})
   .attr("cy", function(d){return y(d.measurement);})
-  .attr("r", function(d){return 4;})
+  .attr("r", function(d){return 2;})
   .attr("stroke-width", 3)
-  .attr("stroke", "steelblue")
-  .attr("fill", "steelblue")
+  .attr("stroke", "hsl(0, 100%, 50%)")
+  .attr("fill", "hsl(0, 100%, 50%)")
   .attr("class", "chest")
   .on("mouseover touchdown", function(d){
     div.attr("class", "shown box");
@@ -134,12 +134,12 @@ data.forEach(function(data) {
 // d3.select("#lbmChange").html(result+"lbs");
 
 x.domain(d3.extent(data, function(d) { return d.date; }));
-y.domain([30,50]);
+y.domain([10,60]);
 
 g.append("path")
   .datum(data)
   .attr("fill", "none")
-  .attr("stroke", "blue")
+  .attr("stroke", "hsl(36, 100%, 50%)")
   .attr("stroke-linejoin", "round")
   .attr("stroke-linecap", "round")
   .attr("stroke-width", 1.5)
@@ -151,10 +151,10 @@ var circles = g.selectAll("circle .waist")
   .append("circle")
   .attr("cx", function(d){return x(d.date);})
   .attr("cy", function(d){return y(d.measurement);})
-  .attr("r", function(d){return 4;})
+  .attr("r", function(d){return 2;})
   .attr("stroke-width", 3)
-  .attr("stroke", "blue")
-  .attr("fill", "blue")
+  .attr("stroke", "hsl(36, 100%, 50%)")
+  .attr("fill", "hsl(36, 100%, 50%)")
   .attr("class", "waist")
   .on("mouseover touchdown", function(d){
     div.attr("class", "shown box");
@@ -167,6 +167,307 @@ var circles = g.selectAll("circle .waist")
     div.attr("class", "hidden box");
     div.html("");
   });
+});
+
+//arms
+d3.csv("measurements/arms.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(72, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .arms")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(72, 100%, 50%)")
+    .attr("fill", "hsl(72, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Arms: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+  });
+
+//shoulders
+d3.csv("measurements/shoulders.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(108, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .shoulders")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(108, 100%, 50%)")
+    .attr("fill", "hsl(108, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Shoulders: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+});
+
+//forearms
+d3.csv("measurements/forearms.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(144, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .forearms")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(144, 100%, 50%)")
+    .attr("fill", "hsl(144, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Forearms: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+});
+
+//neck
+d3.csv("measurements/neck.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(180, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .neck")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(180, 100%, 50%)")
+    .attr("fill", "hsl(180, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Neck: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+});
+
+//hips
+d3.csv("measurements/hips.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(216, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .hips")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(216, 100%, 50%)")
+    .attr("fill", "hsl(216, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Hips: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+});
+
+//thighs
+d3.csv("measurements/thighs.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(252, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .forearms")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(252, 100%, 50%)")
+    .attr("fill", "hsl(252, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Thighs: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
+});
+
+//calves
+d3.csv("measurements/calves.csv", function(data) {
+  data.forEach(function(data) {
+    data.date = parseTime(data.date);
+    data.measurement = +data.measurement;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([10,60]);
+
+  g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "hsl(288, 100%, 50%)")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  var circles = g.selectAll("circle .forearms")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d){return x(d.date);})
+    .attr("cy", function(d){return y(d.measurement);})
+    .attr("r", function(d){return 2;})
+    .attr("stroke-width", 3)
+    .attr("stroke", "hsl(288, 100%, 50%)")
+    .attr("fill", "hsl(288, 100%, 50%)")
+    .attr("class", "waist")
+    .on("mouseover touchdown", function(d){
+      div.attr("class", "shown box");
+      div.append("p").html(showTime(d.date));
+      div.append("p").html("Calves: "+d.measurement+" inches");
+      div.append("p").html(d.notes);
+      div.attr("style", "position:absolute;left:"+d3.event.pageX+"px;top:"+d3.event.pageY+"px;z-index:2;");
+    })
+    .on("mouseout touchup", function(d){
+      div.attr("class", "hidden box");
+      div.html("");
+    });
 });
 
 
