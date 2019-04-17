@@ -1,4 +1,5 @@
 function measurements(){
+  //python -m SimpleHTTPServer 9000
 	var svg = d3.select("#measurements .container svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = +svg.attr("width") - margin.left - margin.right,
