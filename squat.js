@@ -12,11 +12,9 @@ function squat(){
   var parseTime = d3.timeParse("%Y-%m-%d");
   var showTime = d3.timeFormat("%Y-%m-%d");
 
-  var x = d3.scaleTime()
-    .rangeRound([0, width]);
+  var x = d3.scaleTime().rangeRound([0, width]);
 
-  var y = d3.scaleLinear()
-    .rangeRound([height, 0]);
+  var y = d3.scaleLinear().rangeRound([height, 0]);
 
   var line = d3.line()
     .x(function(d) { return x(d.date); })
@@ -56,8 +54,36 @@ function squat(){
     // result = Number.parseFloat(result).toPrecision(3);
     // d3.select("#lbmChange").html(result+"lbs");
 
-    x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain(d3.extent(data, function(d) { return d.weight; }));
+    var overview = d3.nest()
+      .key(function(d){return d.date;})
+      .rollup(function(d){
+        return d3.sum(d, function(g){
+          return g.weight/(1.0278-(.0278*g.reps));});
+      })
+      .entries(data);
+    for (var i = overview.length - 1; i >= 0; i--) {
+      overview[i].key = parseTime(overview[i].key);
+    }
+    console.log(overview);
+
+    for (var i = data.length - 1; i >= 0; i--) {
+      data[i].e1RM = Math.round(data[i].weight/(1.0278-(.0278*data[i].reps)));
+      data[i].date = parseTime(data[i].date);
+    }
+
+    var groupedData = d3.nest()
+      .key(function(d){return d.date;})
+      .entries(data);
+    groupedData.forEach(function(d){
+      d.key = new Date(d.key);
+    });
+    console.log(groupedData);
+
+    x.domain(d3.extent(overview, function(d) { return d.key; }));
+    y.domain([0, d3.max(overview, function(d){ return d.value; })]);
+
+    // var t = new Date("Sat Jan 13 2018 00:00:00 GMT-0500 (EST)");
+    // console.log(x(t));
 
     g.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -73,15 +99,25 @@ function squat(){
       .attr("text-anchor", "end")
       .text("e1RM Sum");
 
-    svg.selectAll(".sumBar")
-      .data(data)
+     var vert = svg.append("g")
+      .attr("transform", "translate("+margin.left+", "+margin.top+")")
+      .selectAll(".setBar")
+      .data(groupedData)
       .enter()
-        .append("rect")
-        .attr("x", function(d){x(d.date);})
-        .attr("y", function(d){y(d.weight);})
-        .attr("width", 3)
-        .attr("height", function(d){height-y(d.weight);})
-        .attr("class", "sumBar");
+      .append("g");
+
+      for (var i = 0; i < groupedData.length; i++) {
+        for (var j = 0; j < groupedData[i].values.length; j++) {
+          // console.log(groupedData[i].values[j]);
+        }
+      }
+
+    vert.append("rect")
+      .attr("x", function(d){return x(d.key);})
+      .attr("y", function(d){return y(d.values[0].e1RM);})
+      .attr("width", 10)
+      .attr("height", function(d){return height - y(d.values[0].e1RM);})
+      .attr("class", "setBar");
         //h.weight/(1.0278-(.0278*h.reps))
 
     // g.append("path")
