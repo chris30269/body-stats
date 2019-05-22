@@ -104,21 +104,42 @@ function squat(){
       .selectAll(".setBar")
       .data(groupedData)
       .enter()
-      .append("g");
+      .append("g")
+        .each(function(d, i, vert){
+          var heightDifferential = height - y(d.values[0].e1RM);
+          console.log("d", d);
+          console.log("i", i);
+          console.log("d3 vert[i]", d3.select(vert[i]));
+          d3.select(vert[i]).append("rect")
+            .attr("x", function(d){return x(d.key);})
+            .attr("y", function(d){return y(d.values[0].e1RM);})
+            .attr("width", 10)
+            .attr("height", function(d){
+              return height - y(d.values[0].e1RM);
+            })
+            .attr("class", "setBar");
+          for (var j = 1; j < groupedData[i].values.length; j++) {
+            // console.log(groupedData[i].values[j]);
+            d3.select(vert[i]).append("rect")
+              .attr("x", function(d){return x(d.key);})
+              .attr("y", function(d){return y(d.values[j].e1RM) - heightDifferential;})
+              .attr("width", 10)
+              .attr("height", function(d){
+                heightDifferential += height - y(d.values[j].e1RM);
+                return height - y(d.values[j].e1RM);
+              })
+              .attr("class", "setBar");
+                //h.weight/(1.0278-(.0278*h.reps))
+          }
+        });
 
-      for (var i = 0; i < groupedData.length; i++) {
-        for (var j = 0; j < groupedData[i].values.length; j++) {
-          // console.log(groupedData[i].values[j]);
-        }
-      }
+      // for (var i = 0; i < groupedData.length; i++) {
+      //   for (var j = 0; j < groupedData[i].values.length; j++) {
+      //     // console.log(groupedData[i].values[j]);
+      //   }
+      // }
 
-    vert.append("rect")
-      .attr("x", function(d){return x(d.key);})
-      .attr("y", function(d){return y(d.values[0].e1RM);})
-      .attr("width", 10)
-      .attr("height", function(d){return height - y(d.values[0].e1RM);})
-      .attr("class", "setBar");
-        //h.weight/(1.0278-(.0278*h.reps))
+    // console.log("groupedData", groupedData);
 
     // g.append("path")
     //   .datum(data)
