@@ -104,7 +104,6 @@ function squat(){
       .selectAll(".setBar")
       .data(groupedData)
       .enter()
-      .append("g")
         .each(function(d, i, vert){
           var heightDifferential = height - y(d.values[0].e1RM);
           console.log("d", d);
@@ -117,7 +116,20 @@ function squat(){
             .attr("height", function(d){
               return height - y(d.values[0].e1RM);
             })
-            .attr("class", "setBar");
+            .attr("class", "setBar")
+            .on("mouseover", function(d){
+                // console.log(d3.select(this).attr("data-j"))
+                var tooltip = d3.select("#tooltip")
+                  .attr("class", "shown box")
+                  .html("<p>"+d.values[0].reps+" reps @ "+d.values[0].weight+"lbs</p><p>= "+d.values[0].e1RM+" e1RM</p>" + (d.values[0].notes ? "<p>note: "+d.values[0].notes+"</p>" : ""))
+                  .attr("style", "position:absolute;left:"+(d3.event.pageX+5)+"px;top:"+d3.event.pageY+"px;");
+                  d3.select(this).style("fill", "yellow");
+              })
+              .on("mouseout", function(d){
+                var tooltip = d3.select("#tooltip")
+                  .attr("class", "hidden box");
+                d3.select(this).style("fill", "");
+              });
           for (var j = 1; j < groupedData[i].values.length; j++) {
             // console.log(groupedData[i].values[j]);
             d3.select(vert[i]).append("rect")
@@ -128,7 +140,21 @@ function squat(){
                 heightDifferential += height - y(d.values[j].e1RM);
                 return height - y(d.values[j].e1RM);
               })
-              .attr("class", "setBar");
+              .attr("data-j", j)
+              .attr("class", "setBar")
+              .on("mouseover", function(d){
+                // console.log(d3.select(this).attr("data-j"))
+                var tooltip = d3.select("#tooltip")
+                  .attr("class", "shown box")
+                  .html("<p style='font-weight:bold;'>"+showTime(d.values[d3.select(this).attr("data-j")].date)+"</p><p>"+d.values[d3.select(this).attr("data-j")].reps+" reps @ "+d.values[d3.select(this).attr("data-j")].weight+"lbs</p><p>= "+d.values[d3.select(this).attr("data-j")].e1RM+" e1RM</p>" + (d.values[d3.select(this).attr("data-j")].notes ? "<p>note: "+d.values[d3.select(this).attr("data-j")].notes+"</p>" : ""))
+                  .attr("style", "position:absolute;left:"+(d3.event.pageX+5)+"px;top:"+d3.event.pageY+"px;");
+                  d3.select(this).style("fill", "yellow");
+              })
+              .on("mouseout", function(d){
+                var tooltip = d3.select("#tooltip")
+                  .attr("class", "hidden box");
+                d3.select(this).style("fill", "");
+              });
                 //h.weight/(1.0278-(.0278*h.reps))
           }
         });

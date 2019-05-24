@@ -16,12 +16,14 @@
         background-color: #fafafa;
       }
     	.hidden{
-    		display: none;
+    		/*display: none;*/
     		opacity: 0;
+        transition: opacity 100ms ease-out;
     	}
     	.shown{
-    		display: block;
+    		/*display: block;*/
     		opacity: 1;
+        transition: opacity 100ms ease-out;
     	}
       .sumBar{
         fill: coral;
@@ -67,7 +69,6 @@
   </section>
   <section>
     <div class="section" id="squat">
-    	<div id="tooltip" class="box"></div>
     	<div class="container">
     		<h5 class="title is-5">Squat e1RM Sum</h5>
     		<p>Difference between first month and last month: <span id="squatChange">x</span></p>
@@ -75,6 +76,7 @@
     	</div>
     </div>
   </section>
+  <span id="tooltip">hello hello</span>
   </body>
   <script type="text/javascript">
 	  weight();
