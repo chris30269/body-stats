@@ -15,7 +15,7 @@ function squat(){
   var x = d3.scaleTime().rangeRound([0, width]);
   var y = d3.scaleLinear().rangeRound([height, 0]);
 
-  var barWidth = 8;//really shoud be an even number
+  var barWidth = 4;//really shoud be an even number
 
   var line = d3.line()
     .x(function(d) { return x(d.date); })
