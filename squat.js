@@ -13,8 +13,9 @@ function squat(){
   var showTime = d3.timeFormat("%Y-%m-%d");
 
   var x = d3.scaleTime().rangeRound([0, width]);
-
   var y = d3.scaleLinear().rangeRound([height, 0]);
+
+  var barWidth = 8;//really shoud be an even number
 
   var line = d3.line()
     .x(function(d) { return x(d.date); })
@@ -110,9 +111,9 @@ function squat(){
           console.log("i", i);
           console.log("d3 vert[i]", d3.select(vert[i]));
           d3.select(vert[i]).append("rect")
-            .attr("x", function(d){return x(d.key);})
+            .attr("x", function(d){return x(d.key)-(Math.floor(barWidth/2));})
             .attr("y", function(d){return y(d.values[0].e1RM);})
-            .attr("width", 10)
+            .attr("width", barWidth)
             .attr("height", function(d){
               return height - y(d.values[0].e1RM);
             })
@@ -133,9 +134,9 @@ function squat(){
           for (var j = 1; j < groupedData[i].values.length; j++) {
             // console.log(groupedData[i].values[j]);
             d3.select(vert[i]).append("rect")
-              .attr("x", function(d){return x(d.key);})
+              .attr("x", function(d){return x(d.key)-(Math.floor(barWidth/2));})
               .attr("y", function(d){return y(d.values[j].e1RM) - heightDifferential;})
-              .attr("width", 10)
+              .attr("width", barWidth)
               .attr("height", function(d){
                 heightDifferential += height - y(d.values[j].e1RM);
                 return height - y(d.values[j].e1RM);
