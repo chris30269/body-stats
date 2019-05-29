@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="programs.js"></script>
+    <script type="text/javascript" src="excuses.js"></script>
     <script type="text/javascript" src="weight.js"></script>
     <script type="text/javascript" src="lbm.js"></script>
     <script type="text/javascript" src="squat.js"></script>
@@ -27,10 +29,6 @@
     	}
       .sumBar{
         fill: coral;
-      }
-      .setBar{
-        stroke: black;
-        fill: grey;
       }
     </style>
   </head>
@@ -69,10 +67,9 @@
   </section>
   <section>
     <div class="section" id="squat">
-    	<div class="container">
+    	<div class="container" style="overflow: scroll;">
     		<h5 class="title is-5">Squat e1RM Sum</h5>
-    		<p>Difference between first month and last month: <span id="squatChange">x</span></p>
-    		<svg width="960" height="500"></svg>
+    		<svg width="1920" height="500"></svg>
     	</div>
     </div>
   </section>
