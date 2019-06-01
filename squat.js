@@ -115,9 +115,9 @@ function squat(){
         .each(function(d, i, vert){
           // var heightDifferential = height - y(d.values[0].e1RM);
           heightDifferential = 0;
-          console.log("d", d);
-          console.log("i", i);
-          console.log("d3 vert[i]", d3.select(vert[i]));
+          // console.log("d", d);
+          // console.log("i", i);
+          // console.log("d3 vert[i]", d3.select(vert[i]));
           // d3.select(vert[i]).append("rect")
           //   .attr("x", function(d){return x(d.key)-(Math.floor(barWidth/2));})
           //   .attr("y", function(d){return y(d.values[0].e1RM);})
