@@ -65,7 +65,7 @@ function squat(){
 
     for (var i = 0; i < programs.length; i++) {
       programs[i].start = parseTime(programs[i].start);
-      programs[i].end = parseTime(programs[i].end);
+      if(programs[i].end != "current") programs[i].end = parseTime(programs[i].end);
       if(programs[i].end == "current") programs[i].end = new Date();
     }
 
