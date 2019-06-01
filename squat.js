@@ -61,11 +61,37 @@ function squat(){
     for (var i = overview.length - 1; i >= 0; i--) {
       overview[i].key = parseTime(overview[i].key);
     }
-    console.log(overview);
+    // console.log("overview",overview);
+
+    for (var i = 0; i < programs.length; i++) {
+      programs[i].start = parseTime(programs[i].start);
+      programs[i].end = parseTime(programs[i].end);
+      if(programs[i].end == "current") programs[i].end = new Date();
+    }
+
+    var nestedPrograms = d3.nest()
+      .key(function(d){return d.name;})
+      .entries(programs);
+    for (var i = nestedPrograms.length - 1; i >= 0; i--) {
+      nestedPrograms[i].color = "hsl("+((360/nestedPrograms.length)*i)+", 100%, 50%)";
+    }
+    for (var i = programs.length - 1; i >= 0; i--) {
+      for (var j = nestedPrograms.length - 1; j >= 0; j--) {
+        if(programs[i].name == nestedPrograms[j].key) programs[i].color = nestedPrograms[j].color;
+      }
+    }
+    console.log("nestedPrograms",nestedPrograms);
+    console.log("programs",programs);
 
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].e1RM = Math.round(data[i].weight/(1.0278-(.0278*data[i].reps)));
       data[i].date = parseTime(data[i].date);
+      for (var j = 0; j < programs.length; j++) {
+        if(data[i].date >= programs[j].start && data[i].date <= programs[j].end){
+          data[i].color = programs[j].color;
+          data[i].program = programs[j].name;
+        }
+      }
     }
 
     var groupedData = d3.nest()
@@ -74,7 +100,7 @@ function squat(){
     groupedData.forEach(function(d){
       d.key = new Date(d.key);
     });
-    console.log(groupedData);
+    console.log("groupedData",groupedData);
 
     x.domain(d3.extent(overview, function(d) { return d.key; }));
     y.domain([0, d3.max(overview, function(d){ return d.value; })]);
@@ -99,7 +125,7 @@ function squat(){
      var vert = svg.append("g");
 
      for (var i = 0; i < excuses.length; i++) {
-       console.log(x(parseTime(excuses[i].end))-x(parseTime(excuses[i].start)));
+       // console.log(x(parseTime(excuses[i].end))-x(parseTime(excuses[i].start)));
        vert.append("rect")
          .attr("x", x(parseTime(excuses[i].start)))
          .attr("y", 0)
@@ -151,12 +177,12 @@ function squat(){
               })
               .attr("data-j", j)
               .attr("class", "setBar")
-              .attr("fill", "hsl("+(10*j)+", 0%, "+(0+(10*j))+"%)")
+              .attr("fill", function(d){return d.values[j].color;})
               .on("mouseover", function(d){
                 // console.log(d3.select(this).attr("data-j"))
                 var tooltip = d3.select("#tooltip")
                   .attr("class", "shown box")
-                  .html("<p style='font-weight:bold;'>"+showTime(d.values[d3.select(this).attr("data-j")].date)+"</p><p>"+d.values[d3.select(this).attr("data-j")].reps+" reps @ "+d.values[d3.select(this).attr("data-j")].weight+"lbs</p><p>= "+d.values[d3.select(this).attr("data-j")].e1RM+" e1RM</p>" + (d.values[d3.select(this).attr("data-j")].notes ? "<p>note: "+d.values[d3.select(this).attr("data-j")].notes+"</p>" : ""))
+                  .html("<p style='font-weight:bold;'>"+showTime(d.values[d3.select(this).attr("data-j")].date)+"</p><p>"+d.values[d3.select(this).attr("data-j")].program+"</p><p>"+d.values[d3.select(this).attr("data-j")].reps+" reps @ "+d.values[d3.select(this).attr("data-j")].weight+"lbs</p><p>= "+d.values[d3.select(this).attr("data-j")].e1RM+" e1RM</p>" + (d.values[d3.select(this).attr("data-j")].notes ? "<p>note: "+d.values[d3.select(this).attr("data-j")].notes+"</p>" : ""))
                   .attr("style", "position:absolute;left:"+(d3.event.pageX+5)+"px;top:"+d3.event.pageY+"px;");
                   // d3.select(this).style("fill", "yellow");
               })

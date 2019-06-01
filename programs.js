@@ -42,6 +42,6 @@ var programs = [
   {
     "name":"Obi's BB",
     "start":"2019-03-03",
-    "end":""
+    "end":"current"
   },
 ];
