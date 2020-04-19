@@ -1,4 +1,4 @@
-date,measurement,notes
+date,measurement,status,comment
 2015-12-17,51,"end of bulk"
 2016-06-14,47.5,"end of cut"
 2017-05-27,48.5,"cutting"
@@ -16,3 +16,13 @@ date,measurement,notes
 2019-03-15,48.75,"maintaining"
 2019-04-15,47.75,"maintaining"
 2019-05-16,46.5,"beginning of cut"
+2019-06-16,47.25,""
+2019-07-15,48,"Cutting","Just back from Japan"
+2019-08-15,47,"Cutting","Just back from Czechia"
+2019-09-14,47.25,"End of cut"
+2019-10-15,47,"Maintaining"
+2019-11-17,47,"Maintaining"
+2020-01-15,48,"Bulking"
+2020-02-14,48,"Bulking"
+2020-03-15,48.5,"Bulking"
+2020-04-17,48.5,"End of bulk","Quarantined"
